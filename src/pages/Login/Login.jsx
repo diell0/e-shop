@@ -1,7 +1,8 @@
 import "./Login.scss";
-import { Button, Flex, Input } from "antd";
+import { Button, Flex, Input, message } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { sigInWithEmailAndPw } from "../../utils/firebase";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,7 +11,24 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    console.log({ email, password });
+    if (!email) {
+      message.warning("Email is empty");
+      return;
+    }
+    if (password.length < 6) {
+      message.warning("Password is to weak");
+      return;
+    }
+
+    sigInWithEmailAndPw(email, password)
+      .then(({ user }) => {
+        localStorage.setItem("userId", user.uid);
+        message.success("Logged in Successfully");
+        navigate("/");
+      })
+      .catch((error) => {
+        message.error(error.message);
+      });
   };
 
   return (
