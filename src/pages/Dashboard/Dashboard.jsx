@@ -1,6 +1,8 @@
 import { Flex } from "antd";
 import "./Dashboard.scss";
 import Card from "../../components/Card/Card";
+import { getProducts } from "../../services/Products";
+import { useEffect } from "react";
 
 const products = [
   {
@@ -36,6 +38,12 @@ const products = [
 ];
 
 const Dashboard = () => {
+  useEffect(() => {
+    getProducts().then((res) => {
+      console.log({ res });
+    });
+  }, []);
+
   return (
     <Flex className="dashboardContainer">
       {products.map((product, i) => {
