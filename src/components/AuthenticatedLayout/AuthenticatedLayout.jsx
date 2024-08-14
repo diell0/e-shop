@@ -21,8 +21,7 @@ const AuthenticatedLayout = () => {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            padding: "0 24px 24px",
-            background: "#4d6f8fcc",
+            padding: "5px",
           }}
         >
           <Content className="content-wrapper">
