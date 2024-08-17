@@ -4,7 +4,10 @@ const currentUserStore = create((set) => ({
   email: "",
   userId: "",
   fullName: "",
-  setUser: ({ email, userId, fullName }) => set({ email, userId, fullName }),
+  isAdmin: false,
+
+  setUser: ({ email, userId, fullName, role }) =>
+    set({ email, userId, fullName, isAdmin: role === "Admin" }),
 }));
 
 export default currentUserStore;

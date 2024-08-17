@@ -1,54 +1,34 @@
-import { Flex } from "antd";
+import { Carousel, Flex } from "antd";
 import "./Dashboard.scss";
-import Card from "../../components/Card/Card";
 import { getProducts } from "../../services/Products";
-import { useEffect } from "react";
-
-const products = [
-  {
-    name: "Iphone 15",
-    price: 1200,
-    category: "phone",
-    img: "https://primefaces.org/cdn/primereact/images/usercard.png",
-  },
-  {
-    name: "Samsung 15",
-    price: 500,
-    category: "phone",
-    img: "https://primefaces.org/cdn/primereact/images/usercard.png",
-  },
-  {
-    name: "Laptop Acer",
-    price: 2200,
-    category: "laptop",
-    img: "https://primefaces.org/cdn/primereact/images/usercard.png",
-  },
-  {
-    name: "ssss Acer",
-    price: 2200,
-    category: "laptop",
-    img: "https://primefaces.org/cdn/primereact/images/usercard.png",
-  },
-  {
-    name: "111111111111 Acer",
-    price: 2200,
-    category: "laptop",
-    img: "https://primefaces.org/cdn/primereact/images/usercard.png",
-  },
-];
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
     getProducts().then((res) => {
-      console.log({ res });
+      setProducts(res);
     });
   }, []);
 
+  const contentStyle = {
+    height: "160px",
+    color: "#fff",
+    lineHeight: "160px",
+    textAlign: "center",
+    background: "#364d79",
+  };
+
   return (
     <Flex className="dashboardContainer">
-      {products.map((product, i) => {
-        return <Card key={i} />;
-      })}
+      <Carousel style={{ width: "100%" }} autoplay>
+        {products.map((_, i) => (
+          <div key={i}>
+            <h3 style={contentStyle}>{i}</h3>
+          </div>
+        ))}
+      </Carousel>
     </Flex>
   );
 };

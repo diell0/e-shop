@@ -1,10 +1,10 @@
 import "./AuthenticatedLayout.scss";
-import React from "react";
 import { Layout } from "antd";
 import { Dashboard, Profile } from "../../pages";
 import { Route, Routes } from "react-router-dom";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
+import Products from "../../pages/Dashboard/Products/Products";
 
 const { Content } = Layout;
 
@@ -28,6 +28,7 @@ const AuthenticatedLayout = () => {
             <Routes>
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/profile" element={<Profile />} />
+              <Route exact path="/products" element={<Products />} />
             </Routes>
           </Content>
         </Layout>

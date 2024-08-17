@@ -8,3 +8,21 @@ export const getProducts = async () => {
     console.error("Error fetching users:", error);
   }
 };
+
+export const createProduct = async (data) => {
+  try {
+    const response = await api.post("/products", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+};
+
+export const deleteProduct = async (id) => {
+  try {
+    const response = await api.delete("/products/" + id);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+};
