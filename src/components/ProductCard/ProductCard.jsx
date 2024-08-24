@@ -17,7 +17,19 @@ const ProductCard = ({
   const { isAdmin } = currentUserStore();
 
   return (
-    <Flex justify="space-between" align="center" style={{}}>
+    <Flex
+      justify="space-between"
+      align="center"
+      style={{
+        flex: "1 0 0",
+        minWidth: "450px",
+        background: "#ffffff",
+        borderRadius: "10px",
+        padding: "20px",
+        position: "relative",
+        maxHeight: "200px",
+      }}
+    >
       <Flex style={{ height: "100%" }} align="center" gap={20}>
         <Flex>
           <Image
@@ -30,11 +42,11 @@ const ProductCard = ({
             }
           />
         </Flex>
-        <Flex
-          vertical
-          justify="space-between"
-          style={{ height: "100%" }}
-        ></Flex>
+        <Flex vertical justify="space-between" style={{ height: "100%" }}>
+          <span style={{ fontSize: "24px", fontWeight: "bold" }}>{name}</span>
+          <span>{description}</span>
+          <Rate allowHalf defaultValue={rate} />
+        </Flex>
       </Flex>
       <Flex
         style={{ height: "100%", marginRight: 20 }}
@@ -50,6 +62,23 @@ const ProductCard = ({
           <Tag color={statuses[status]}>{status}</Tag>
         </Flex>
       </Flex>
+
+      {isAdmin && (
+        <Button
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            border: 0,
+            margin: 3,
+          }}
+          type="primary"
+          icon={<DeleteFilled />}
+          onClick={handleDelete}
+          color="white"
+          danger
+        />
+      )}
     </Flex>
   );
 };

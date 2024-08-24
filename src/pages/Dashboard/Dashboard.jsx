@@ -58,8 +58,20 @@ const Dashboard = () => {
           ))}
         </Carousel>
       </Flex>
-
       <Flex gap={10} style={{}}></Flex>
+      <Flex
+        gap={10}
+        style={{
+          padding: "10px",
+          height: "100%",
+          width: "100%",
+          flexWrap: "wrap",
+        }}
+      >
+        {chartData.map(({ title, labels, data, Chart }) => (
+          <Chart title={title} labels={labels} data={data} />
+        ))}
+      </Flex>
     </Flex>
   );
 };
