@@ -23,36 +23,32 @@ const ProductCard = ({
           <Image
             width={100}
             height={100}
+            style={{ borderRadius: "20px" }}
             src={
               image ||
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgAaHX6pPeyewcUpOxSTk1T-Qo6FsnVvs6Vg&s"
             }
           />
         </Flex>
-        <Flex vertical>
-          <span style={{ fontSize: "24px", fontWeight: "bold" }}>{name}</span>
-          <span>{description}</span>
-          <Rate allowHalf defaultValue={rate} />
-          <Tag title={category} />
-        </Flex>
+        <Flex
+          vertical
+          justify="space-between"
+          style={{ height: "100%" }}
+        ></Flex>
       </Flex>
       <Flex
-        style={{ height: "100%" }}
+        style={{ height: "100%", marginRight: 20 }}
         vertical
         justify="space-evenly"
-        align="center"
+        align="flex-end"
         gap={5}
       >
-        {isAdmin && (
-          <Button
-            shape="circle"
-            icon={<DeleteFilled />}
-            onClick={handleDelete}
-          />
-        )}
-        <span style={{ fontSize: "24px", fontWeight: "bold" }}>{price}</span>
-        <Button icon={<HeartFilled />}>Favourite</Button>
-        <Button style={{ background: statuses[status] }}>{status}</Button>
+        <Button shape="circle" icon={<HeartFilled />} />
+        <span style={{ fontSize: "24px", fontWeight: "bold" }}>{price}$</span>
+        <Flex justify="space-between">
+          <Tag style={{ fontWeight: 700 }}>{category}</Tag>
+          <Tag color={statuses[status]}>{status}</Tag>
+        </Flex>
       </Flex>
     </Flex>
   );

@@ -1,7 +1,16 @@
 .dashboardContainer {
+  height: 100%;
   padding: 5px;
   flex-direction: row !important;
   flex-wrap: wrap;
   gap: 10px;
   overflow: auto;
+  .ant-carousel {
+    width: 100%;
+    .ant-image {
+      display: flex;
+      align-items: center;
+      max-height: 160px;
+    }
+  }
 }

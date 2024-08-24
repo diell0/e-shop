@@ -1,7 +1,9 @@
-import { Carousel, Flex } from "antd";
 import "./Dashboard.scss";
+import { Carousel, Flex, Image } from "antd";
 import { getProducts } from "../../services/Products";
 import { useEffect, useState } from "react";
+import BarChart from "../../components/Charts/BarChart/BarChart";
+import DoughnutChart from "../../components/Charts/DoughnutChart/DoughnutChart";
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
@@ -12,23 +14,52 @@ const Dashboard = () => {
     });
   }, []);
 
-  const contentStyle = {
-    height: "160px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
-  };
+  const uniqueNames = [...new Set(products.map(({ name }) => name))];
+  const uniqueStatuses = [...new Set(products.map(({ status }) => status))];
+  const productRates = [...new Set(products.map(({ rate }) => rate))];
+
+  const chartData = [
+    {
+      title: "Unique products",
+      labels: uniqueNames,
+      data: uniqueNames.map(
+        (name) => products.filter((product) => product.name === name).length
+      ),
+      Chart: BarChart,
+    },
+    {
+      title: "Statuses of all products",
+      labels: uniqueStatuses,
+      data: uniqueStatuses.map(
+        (status) =>
+          products.filter((product) => product.status === status).length
+      ),
+      Chart: DoughnutChart,
+    },
+    {
+      title: "Rates for products",
+      labels: productRates,
+      data: productRates.map(
+        (rate) => products.filter((product) => product.rate === rate).length
+      ),
+      Chart: BarChart,
+    },
+  ];
 
   return (
-    <Flex className="dashboardContainer">
-      <Carousel style={{ width: "100%" }} autoplay>
-        {products.map((_, i) => (
-          <div key={i}>
-            <h3 style={contentStyle}>{i}</h3>
-          </div>
-        ))}
-      </Carousel>
+    <Flex
+      className="dashboardContainer"
+      style={{ overflow: "auto", height: "100%" }}
+    >
+      <Flex style={{ width: "100%" }}>
+        <Carousel autoplay style={{ background: "black" }}>
+          {products.map(({ image }, i) => (
+            <Image key={i} src={image} />
+          ))}
+        </Carousel>
+      </Flex>
+
+      <Flex gap={10} style={{}}></Flex>
     </Flex>
   );
 };

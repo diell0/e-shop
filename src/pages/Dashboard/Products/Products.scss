@@ -1,0 +1,19 @@
+.productContainer {
+  border-radius: 10px;
+  padding: 20px;
+  background: white;
+  margin: 5px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  text-wrap: nowrap;
+}
+
+.cards {
+  height: 100%;
+  overflow: auto;
+  padding: 5px;
+  flex-wrap: wrap;
+}

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { deleteProduct, getProducts } from "../../../services/Products";
 import ProductCard from "../../../components/ProductCard/ProductCard";
 import NewProductModal from "../../../components/NewProductModal/NewProductModal";
+import "./Products.scss";
 
 const Products = () => {
   const { isAdmin } = currentUserStore();
@@ -15,8 +16,6 @@ const Products = () => {
 
   useEffect(() => {
     getProducts().then((res) => {
-      console.log({ res });
-
       setProducts(res);
     });
   }, []);
@@ -27,22 +26,9 @@ const Products = () => {
   };
 
   return (
-    <Flex gap={20}>
-      <Flex
-        gap={20}
-        align="center"
-        style={{
-          borderRadius: "10px",
-          border: "1px solid gray",
-          padding: "10px",
-          background: "#fff",
-        }}
-      >
-        <div
-          style={{ fontSize: "24px", fontWeight: "bold", textWrap: "nowrap" }}
-        >
-          Products
-        </div>
+    <Flex gap={10}>
+      <Flex gap={20} align="center" className="productContainer">
+        <div className="title">Products ({products.length})</div>
 
         <Search
           placeholder="Search..."
@@ -63,16 +49,7 @@ const Products = () => {
         </Flex>
       </Flex>
 
-      <Flex
-        gap={10}
-        justify="start"
-        style={{
-          background: "gray",
-          padding: "20px",
-          height: "100%",
-          flexWrap: "wrap",
-        }}
-      >
+      <Flex gap={10} justify="start" className="cards">
         {products.map((product, i) => (
           <ProductCard
             key={i}
