@@ -1,5 +1,6 @@
 import { Button, Flex, Form, Input, message, Modal } from "antd";
 import { createProduct } from "../../services/Products";
+import "./NewProductModal.scss";
 
 const productInputs = [
   { label: "name", name: "name", placeholder: "Enter product name" },
@@ -56,11 +57,8 @@ const NewProductModal = ({ showNewModal, setShowNewModal, setProducts }) => {
       onCancel={() => setShowNewModal(false)}
       footer={
         <Flex justify="space-between">
-          <Button style={{ color: "white", background: "red" }}>Close</Button>
-          <Button
-            style={{ color: "white", background: "green" }}
-            onClick={handleSaveProduct}
-          >
+          <Button className="closeButton">Close</Button>
+          <Button className="saveButton" onClick={handleSaveProduct}>
             Save
           </Button>
         </Flex>

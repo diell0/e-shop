@@ -17,17 +17,7 @@ const ProductCard = ({
   const { isAdmin } = currentUserStore();
 
   return (
-    <Flex
-      justify="space-between"
-      align="center"
-      style={{
-        background: "red",
-        flex: "1 0 0",
-        height: "150px",
-        minWidth: "400px",
-        padding: "10px 20px",
-      }}
-    >
+    <Flex justify="space-between" align="center" style={{}}>
       <Flex style={{ height: "100%" }} align="center" gap={20}>
         <Flex>
           <Image
