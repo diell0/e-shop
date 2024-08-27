@@ -1,8 +1,11 @@
 import api from "./axios";
 
-export const getFavorites = async () => {
+export const getFavorites = async (userId) => {
   try {
-    const response = await api.get("/favorites");
+    if (!userId) {
+      return;
+    }
+    const response = await api.get("/favorites/" + userId);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);

@@ -6,6 +6,7 @@ import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import Products from "../../pages/Products/Products";
 import Favorites from "../../pages/Favorites/Favorites";
+import Cart from "../../pages/Cart/Cart";
 
 const { Content } = Layout;
 

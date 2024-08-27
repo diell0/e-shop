@@ -7,26 +7,35 @@ import { deleteProduct, getProducts } from "../../services/Products";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import NewProductModal from "../../components/NewProductModal/NewProductModal";
 import "./Products.scss";
+import { createFavorite, getFavorites } from "../../services/Favorite";
 
 const Products = () => {
-  const { isAdmin } = currentUserStore();
+  const { isAdmin, userId } = currentUserStore();
 
   const [products, setProducts] = useState([]);
   const [showNewModal, setShowNewModal] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     getProducts().then((res) => {
       setProducts(res);
     });
-  }, []);
+    getFavorites(userId).then((res) => {
+      setFavorites(res.map(({ productId }) => productId));
+    });
+  }, [userId]);
 
   const handleDelete = (id) => {
     deleteProduct(id);
     setProducts((prev) => prev.filter((product) => product.id !== id));
   };
 
-  console.log({ searchValue });
+  const handleFavorite = (productId) => {
+    createFavorite({ productId, userId }).then((res) => {
+      setFavorites((prev) => [...prev, res.productId]);
+    });
+  };
 
   return (
     <Flex gap={10}>
@@ -59,7 +68,12 @@ const Products = () => {
           .map((product, i) => (
             <ProductCard
               key={i}
-              {...{ ...product, handleDelete: () => handleDelete(product.id) }}
+              {...{
+                ...product,
+                isFavorite: favorites.includes(product.id),
+                handleDelete: () => handleDelete(product.id),
+                handleFavorite: () => handleFavorite(product.id),
+              }}
             />
           ))}
       </Flex>

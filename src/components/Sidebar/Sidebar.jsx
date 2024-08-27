@@ -3,6 +3,7 @@ import {
   DashboardOutlined,
   HeartTwoTone,
   ShoppingOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ const sidebarItems = () => [
   { key: "", label: "Dashboard", icon: <DashboardOutlined /> },
   { key: "products", label: "Products", icon: <ShoppingOutlined /> },
   { key: "favorites", label: "Favorites", icon: <HeartTwoTone /> },
+  { key: "cart", label: "Cart", icon: <ShoppingCartOutlined /> },
 ];
 
 const Sidebar = () => {
