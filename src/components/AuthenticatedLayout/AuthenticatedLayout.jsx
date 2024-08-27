@@ -4,7 +4,7 @@ import { Dashboard, Profile } from "../../pages";
 import { Route, Routes } from "react-router-dom";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import Products from "../../pages/Dashboard/Products/Products";
+import Products from "../../pages/Products/Products";
 
 const { Content } = Layout;
 
@@ -29,6 +29,7 @@ const AuthenticatedLayout = () => {
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/profile" element={<Profile />} />
               <Route exact path="/products" element={<Products />} />
+              <Route exact path="/favorites" element={<Products />} />
             </Routes>
           </Content>
         </Layout>
