@@ -68,8 +68,8 @@ const Dashboard = () => {
           flexWrap: "wrap",
         }}
       >
-        {chartData.map(({ title, labels, data, Chart }) => (
-          <Chart title={title} labels={labels} data={data} />
+        {chartData.map(({ title, labels, data, Chart }, i) => (
+          <Chart key={i} title={title} labels={labels} data={data} />
         ))}
       </Flex>
     </Flex>

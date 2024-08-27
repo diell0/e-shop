@@ -13,6 +13,7 @@ const Products = () => {
 
   const [products, setProducts] = useState([]);
   const [showNewModal, setShowNewModal] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     getProducts().then((res) => {
@@ -34,6 +35,7 @@ const Products = () => {
           placeholder="Search..."
           enterButton={<SearchOutlined />}
           style={{ width: "100px" }}
+          onChange={(e) => setSearchValue(e.target.value)}
         />
 
         <Flex gap={10}>

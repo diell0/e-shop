@@ -1,4 +1,3 @@
-import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -36,7 +35,21 @@ const DoughnutChart = ({ title, labels, data }) => {
         minWidth: "300px",
       }}
     >
-      <Doughnut data={doughnutData} />;
+      <Doughnut
+        data={{
+          labels,
+          datasets: [
+            {
+              label: title,
+              data: data,
+              backgroundColor: "rgba(75,192,192,0.4)",
+              borderColor: "rgba(75,192,192,1)",
+              borderWidth: 1,
+            },
+          ],
+        }}
+      />
+      ;
     </Flex>
   );
 };
