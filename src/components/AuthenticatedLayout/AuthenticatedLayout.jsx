@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import Products from "../../pages/Products/Products";
+import Favorites from "../../pages/Favorites/Favorites";
 
 const { Content } = Layout;
 
@@ -29,7 +30,8 @@ const AuthenticatedLayout = () => {
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/profile" element={<Profile />} />
               <Route exact path="/products" element={<Products />} />
-              <Route exact path="/favorites" element={<Products />} />
+              <Route exact path="/favorites" element={<Favorites />} />
+              <Route exact path="/cart" element={<Cart />} />
             </Routes>
           </Content>
         </Layout>

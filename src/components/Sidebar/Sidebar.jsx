@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { CarOutlined, DashboardOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import {
+  DashboardOutlined,
+  HeartTwoTone,
+  ShoppingOutlined,
+} from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,7 +11,8 @@ const { Sider } = Layout;
 
 const sidebarItems = () => [
   { key: "", label: "Dashboard", icon: <DashboardOutlined /> },
-  { key: "products", label: "Products", icon: <CarOutlined /> },
+  { key: "products", label: "Products", icon: <ShoppingOutlined /> },
+  { key: "favorites", label: "Favorites", icon: <HeartTwoTone /> },
 ];
 
 const Sidebar = () => {
