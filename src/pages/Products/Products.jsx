@@ -7,7 +7,11 @@ import { deleteProduct, getProducts } from "../../services/Products";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import NewProductModal from "../../components/NewProductModal/NewProductModal";
 import "./Products.scss";
-import { createFavorite, getFavorites } from "../../services/Favorite";
+import {
+  createFavorite,
+  deleteFavorite,
+  getFavorites,
+} from "../../services/Favorite";
 
 const Products = () => {
   const { isAdmin, userId } = currentUserStore();
@@ -22,7 +26,7 @@ const Products = () => {
       setProducts(res);
     });
     getFavorites(userId).then((res) => {
-      setFavorites(res.map(({ productId }) => productId));
+      setFavorites(res);
     });
   }, [userId]);
 
@@ -37,6 +41,18 @@ const Products = () => {
     });
   };
 
+  const handleDeleteFavorite = (productId) => {
+    const currentFavoriteId = favorites.find(
+      (favorite) => favorite.productId === productId
+    ).id;
+
+    deleteFavorite(currentFavoriteId).then(() => {
+      setFavorites((prev) =>
+        prev.filter((favorite) => favorite.id !== currentFavoriteId)
+      );
+    });
+  };
+
   return (
     <Flex gap={10}>
       <Flex gap={20} align="center" className="productContainer">
@@ -46,7 +62,7 @@ const Products = () => {
           placeholder="Search..."
           enterButton={<SearchOutlined />}
           style={{ width: "100px" }}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(event) => setSearchValue(event.target.value)}
         />
 
         <Flex gap={10}>
@@ -65,17 +81,26 @@ const Products = () => {
       <Flex gap={10} justify="start" className="cards">
         {products
           .filter(({ name }) => name.includes(searchValue))
-          .map((product, i) => (
-            <ProductCard
-              key={i}
-              {...{
-                ...product,
-                isFavorite: favorites.includes(product.id),
-                handleDelete: () => handleDelete(product.id),
-                handleFavorite: () => handleFavorite(product.id),
-              }}
-            />
-          ))}
+          .map((product, i) => {
+            const isFavorite = favorites?.some(
+              ({ productId }) => productId === product.id
+            );
+
+            return (
+              <ProductCard
+                key={i}
+                {...{
+                  ...product,
+                  isFavorite,
+                  handleDelete: () => handleDelete(product.id),
+                  handleFavorite: () =>
+                    isFavorite
+                      ? handleDeleteFavorite(product.id)
+                      : handleFavorite(product.id),
+                }}
+              />
+            );
+          })}
       </Flex>
 
       <NewProductModal {...{ showNewModal, setShowNewModal, setProducts }} />
