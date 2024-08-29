@@ -8,7 +8,7 @@ export const getFavorites = async (userId) => {
     const response = await api.get("/favorites/" + userId);
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching favorites:", error);
   }
 };
 
@@ -17,7 +17,7 @@ export const createFavorite = async (data) => {
     const response = await api.post("/favorites", data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching favorites:", error);
   }
 };
 
@@ -26,6 +26,6 @@ export const deleteFavorite = async (id) => {
     const response = await api.delete("/favorites/" + id);
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching favorites:", error);
   }
 };

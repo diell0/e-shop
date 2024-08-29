@@ -1,4 +1,9 @@
-import { DeleteFilled, HeartFilled, HeartOutlined } from "@ant-design/icons";
+import {
+  DeleteFilled,
+  HeartFilled,
+  HeartOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 import { Button, Flex, Image, Rate, Tag } from "antd";
 import currentUserStore from "../../store/currentUserStore";
 
@@ -15,6 +20,7 @@ const ProductCard = ({
   isFavorite,
   handleDelete,
   handleFavorite,
+  handleAddToCart,
 }) => {
   const { isAdmin } = currentUserStore();
 
@@ -57,11 +63,21 @@ const ProductCard = ({
         align="flex-end"
         gap={5}
       >
-        <Button
-          shape="circle"
-          icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
-          onClick={handleFavorite}
-        />
+        <Flex gap={10}>
+          <Button
+            shape="circle"
+            icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+            onClick={handleFavorite}
+          />
+
+          {handleAddToCart && (
+            <Button
+              shape="circle"
+              icon={<ShoppingCartOutlined />}
+              onClick={handleAddToCart}
+            />
+          )}
+        </Flex>
         <span style={{ fontSize: "24px", fontWeight: "bold" }}>{price}$</span>
         <Flex justify="space-between">
           <Tag style={{ fontWeight: 700 }}>{category}</Tag>
@@ -69,7 +85,7 @@ const ProductCard = ({
         </Flex>
       </Flex>
 
-      {isAdmin && (
+      {isAdmin && handleDelete && (
         <Button
           style={{
             position: "absolute",

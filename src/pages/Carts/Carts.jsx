@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import "./Favorites.scss";
+import "./Carts.scss";
 import { Flex, Spin } from "antd";
-import { getFavorites } from "../../services/Favorite";
 import currentUserStore from "../../store/currentUserStore";
 import { getProducts } from "../../services/Products";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { getCarts } from "../../services/Cart";
 
-const Favorites = () => {
+const Carts = () => {
   const { userId } = currentUserStore();
 
-  const [favorites, setFavorites] = useState([]);
+  const [carts, setCarts] = useState([]);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -17,18 +17,20 @@ const Favorites = () => {
       setProducts(res);
     });
 
-    getFavorites(userId).then((res) => {
-      setFavorites(res);
+    getCarts(userId).then((res) => {
+      setCarts(res);
     });
   }, [userId]);
 
-  if (!favorites) {
+  console.log({ carts });
+
+  if (!carts) {
     return <Spin />;
   }
 
   return (
-    <Flex className="favoritesContainer">
-      {favorites.map(({ productId }, index) => {
+    <Flex className="cartsContainer">
+      {carts.map(({ productId }, index) => {
         const currentProduct = products.find(({ id }) => id === productId);
 
         return <ProductCard key={index} {...currentProduct} />;
@@ -37,4 +39,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default Carts;

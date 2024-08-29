@@ -1,5 +1,5 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Flex } from "antd";
+import { Button, Flex, Spin } from "antd";
 import Search from "antd/es/transfer/search";
 import currentUserStore from "../../store/currentUserStore";
 import { useEffect, useState } from "react";
@@ -41,6 +41,12 @@ const Products = () => {
     });
   };
 
+  const handleAddToCart = (productId) => {
+    createFavorite({ productId, userId }).then((res) => {
+      setFavorites((prev) => [...prev, res.productId]);
+    });
+  };
+
   const handleDeleteFavorite = (productId) => {
     const currentFavoriteId = favorites.find(
       (favorite) => favorite.productId === productId
@@ -52,6 +58,10 @@ const Products = () => {
       );
     });
   };
+
+  if (!products) {
+    return <Spin />;
+  }
 
   return (
     <Flex gap={10}>
@@ -93,6 +103,7 @@ const Products = () => {
                   ...product,
                   isFavorite,
                   handleDelete: () => handleDelete(product.id),
+                  handleAddToCart: () => handleAddToCart(product.id),
                   handleFavorite: () =>
                     isFavorite
                       ? handleDeleteFavorite(product.id)
