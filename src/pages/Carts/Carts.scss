@@ -1,2 +1,11 @@
-.cartContainer {
+.cartsContainer {
+  padding: 10px;
+  overflow: auto;
+  .cards {
+    flex-wrap: wrap;
+    flex-direction: row;
+    .cardContainer {
+      min-width: 350px;
+    }
+  }
 }

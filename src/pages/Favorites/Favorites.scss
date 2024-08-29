@@ -1,5 +1,11 @@
 .favoritesContainer {
+  flex-direction: row !important;
+  height: 100%;
   padding: 20px;
-  flex-direction: column;
   gap: 20px;
+  flex-wrap: wrap;
+  overflow: auto;
+  .cardContainer {
+    min-width: 350px;
+  }
 }

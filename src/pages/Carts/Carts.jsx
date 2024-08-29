@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
 import "./Carts.scss";
-import { Flex, Spin } from "antd";
+import { useEffect, useState } from "react";
+import { Divider, Flex, Spin } from "antd";
 import currentUserStore from "../../store/currentUserStore";
 import { getProducts } from "../../services/Products";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { getCarts } from "../../services/Cart";
+import { deleteCart, getCarts } from "../../services/Cart";
 
 const Carts = () => {
   const { userId } = currentUserStore();
@@ -22,19 +22,70 @@ const Carts = () => {
     });
   }, [userId]);
 
-  console.log({ carts });
+  const handleDeleteFromCart = (productId) => {
+    const currentCartId = carts.find(
+      (cart) => cart.productId === productId
+    )?.id;
+
+    deleteCart(currentCartId).then(() => {
+      setCarts((prev) => prev.filter((cart) => cart.id !== currentCartId));
+    });
+  };
 
   if (!carts) {
-    return <Spin />;
+    return (
+      <Spin
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        size="large"
+        tip="Loading..."
+      />
+    );
   }
 
-  return (
-    <Flex className="cartsContainer">
-      {carts.map(({ productId }, index) => {
-        const currentProduct = products.find(({ id }) => id === productId);
+  const groupedCartsByProduct = carts.reduce((acc, curr) => {
+    return {
+      ...acc,
+      [curr.productId]: [...(acc?.[curr?.productId] || []), curr],
+    };
+  }, {});
 
-        return <ProductCard key={index} {...currentProduct} />;
-      })}
+  return (
+    <Flex className="cartsContainer" gap={10}>
+      {Object.entries(groupedCartsByProduct).map(
+        ([productId, productCarts], index) => {
+          const currentProduct = products.find(
+            ({ id }) => id === parseInt(productId)
+          );
+
+          return (
+            <Flex vertical key={index}>
+              <Divider>
+                <b style={{ fontSize: 22 }}>{currentProduct.name}</b>
+              </Divider>
+
+              <Flex className="cards" vertical gap={10}>
+                {productCarts.map((cart, i) => {
+                  return (
+                    <ProductCard
+                      key={i}
+                      {...{
+                        ...currentProduct,
+                        handleAddToCart: () =>
+                          handleDeleteFromCart(cart.productId),
+                      }}
+                    />
+                  );
+                })}
+              </Flex>
+            </Flex>
+          );
+        }
+      )}
     </Flex>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Favorites.scss";
 import { Flex, Spin } from "antd";
-import { getFavorites } from "../../services/Favorite";
+import { deleteFavorite, getFavorites } from "../../services/Favorite";
 import currentUserStore from "../../store/currentUserStore";
 import { getProducts } from "../../services/Products";
 import ProductCard from "../../components/ProductCard/ProductCard";
@@ -22,8 +22,31 @@ const Favorites = () => {
     });
   }, [userId]);
 
+  const handleDeleteFavorite = (productId) => {
+    const currentFavoriteId = favorites.find(
+      (favorite) => favorite.productId === productId
+    ).id;
+
+    deleteFavorite(currentFavoriteId).then(() => {
+      setFavorites((prev) =>
+        prev.filter((favorite) => favorite.id !== currentFavoriteId)
+      );
+    });
+  };
+
   if (!favorites) {
-    return <Spin />;
+    return (
+      <Spin
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        size="large"
+        tip="Loading..."
+      />
+    );
   }
 
   return (
@@ -31,7 +54,16 @@ const Favorites = () => {
       {favorites.map(({ productId }, index) => {
         const currentProduct = products.find(({ id }) => id === productId);
 
-        return <ProductCard key={index} {...currentProduct} />;
+        return (
+          <ProductCard
+            key={index}
+            {...{
+              ...currentProduct,
+              isFavorite: true,
+              handleFavorite: () => handleDeleteFavorite(productId),
+            }}
+          />
+        );
       })}
     </Flex>
   );

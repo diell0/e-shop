@@ -12,6 +12,7 @@ import {
   deleteFavorite,
   getFavorites,
 } from "../../services/Favorite";
+import { createCart, getCarts } from "../../services/Cart";
 
 const Products = () => {
   const { isAdmin, userId } = currentUserStore();
@@ -20,6 +21,7 @@ const Products = () => {
   const [showNewModal, setShowNewModal] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [favorites, setFavorites] = useState([]);
+  const [carts, setCarts] = useState([]);
 
   useEffect(() => {
     getProducts().then((res) => {
@@ -27,6 +29,9 @@ const Products = () => {
     });
     getFavorites(userId).then((res) => {
       setFavorites(res);
+    });
+    getCarts(userId).then((res) => {
+      setCarts(res);
     });
   }, [userId]);
 
@@ -37,14 +42,14 @@ const Products = () => {
 
   const handleFavorite = (productId) => {
     createFavorite({ productId, userId }).then((res) => {
-      setFavorites((prev) => [...prev, res.productId]);
+      setFavorites((prev) => [...prev, res]);
     });
   };
 
   const handleAddToCart = (productId) => {
-    createFavorite({ productId, userId }).then((res) => {
-      setFavorites((prev) => [...prev, res.productId]);
-    });
+    createCart({ productId, userId }).then((res) =>
+      setCarts((prev) => [...prev, res])
+    );
   };
 
   const handleDeleteFavorite = (productId) => {
@@ -59,8 +64,19 @@ const Products = () => {
     });
   };
 
-  if (!products) {
-    return <Spin />;
+  if (!products || !favorites || !carts) {
+    return (
+      <Spin
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        size="large"
+        tip="Loading..."
+      />
+    );
   }
 
   return (
@@ -102,6 +118,9 @@ const Products = () => {
                 {...{
                   ...product,
                   isFavorite,
+                  cartsLength: carts.filter(
+                    ({ productId }) => productId === product.id
+                  ).length,
                   handleDelete: () => handleDelete(product.id),
                   handleAddToCart: () => handleAddToCart(product.id),
                   handleFavorite: () =>

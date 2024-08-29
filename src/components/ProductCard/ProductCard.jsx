@@ -1,10 +1,11 @@
+import "./ProductCard.scss";
 import {
   DeleteFilled,
   HeartFilled,
   HeartOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { Button, Flex, Image, Rate, Tag } from "antd";
+import { Badge, Button, Flex, Image, Rate, Tag } from "antd";
 import currentUserStore from "../../store/currentUserStore";
 
 const statuses = { "Out Of Stock": "red", "In Stock": "green" };
@@ -18,6 +19,7 @@ const ProductCard = ({
   rate = 2.5,
   status = "In Stock",
   isFavorite,
+  cartsLength,
   handleDelete,
   handleFavorite,
   handleAddToCart,
@@ -25,19 +27,7 @@ const ProductCard = ({
   const { isAdmin } = currentUserStore();
 
   return (
-    <Flex
-      justify="space-between"
-      align="center"
-      style={{
-        flex: "1 0 0",
-        minWidth: "450px",
-        background: "#ffffff",
-        borderRadius: "10px",
-        padding: "20px",
-        position: "relative",
-        maxHeight: "200px",
-      }}
-    >
+    <Flex className="cardContainer" justify="space-between" align="center">
       <Flex style={{ height: "100%" }} align="center" gap={20}>
         <Flex>
           <Image
@@ -64,17 +54,20 @@ const ProductCard = ({
         gap={5}
       >
         <Flex gap={10}>
-          <Button
-            shape="circle"
-            icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
-            onClick={handleFavorite}
-          />
-
           {handleAddToCart && (
+            <Badge count={cartsLength}>
+              <Button
+                shape="circle"
+                icon={<ShoppingCartOutlined />}
+                onClick={handleAddToCart}
+              />
+            </Badge>
+          )}
+          {handleFavorite && (
             <Button
               shape="circle"
-              icon={<ShoppingCartOutlined />}
-              onClick={handleAddToCart}
+              icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+              onClick={handleFavorite}
             />
           )}
         </Flex>
